@@ -6,8 +6,8 @@ import parkUp from "../parkUp.svg";
 
 const styles = makeStyles({
     bar:{
-        paddingTop: "1.15rem",
-        backgroundColor: "#fff",
+        paddingTop: "1rem",
+        backgroundColor: "rgb(90,220,223)",
         '@media (max-width:780px)': { 
            flexDirection: "column"
           }
@@ -38,12 +38,12 @@ const styles = makeStyles({
             flexWrap: "nowrap",
             alignContent: "stretch"
         },
-        fontWeight: "600",
+        fontWeight: "500",
         fontSize: "20px",
         lineHeight: "14px",
         color: "#000",
-        width: "100%",
-        height: "100%",
+        width: "25%",
+        height: "25%",
         display: "flex",
         justifyContent: "flex-end",
         alignItems: "center"
