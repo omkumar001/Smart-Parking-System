@@ -14,6 +14,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 
+app.get("/spotpark", function (req, res) {
+
+  res.render("spotpark");
+});
+
+app.post("/spotpark", function (req, res) {
+});
 
 
 app.get("/", function (req, res) {
@@ -22,10 +29,20 @@ app.get("/", function (req, res) {
 
 
 app.post("/", function (req, res) {
+  
 });
+
+app.get("/slotpark", function (req, res) {
+  res.sendFile(__dirname + "/Index.html");
+});
+
 
 
 
 app.listen(3000, function () {
   console.log("Server started at the port 3000.");
 });
+
+
+
+

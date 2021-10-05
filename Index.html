@@ -1,12 +1,79 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <meta charset="utf-8" />
+    <title>Smart Parking System | Parking Spot</title>
+    <link href="bootstrap.min.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <script
+      src="https://kit.fontawesome.com/ab2155e76b.js"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins&display=swap"
+      rel="stylesheet"
+    />
+    <link href="maps.css" rel="stylesheet" />
   </head>
   <body>
-    <h1>Welcome to the Smart Parking System !!!</h1>
+    <div class="jumbotron">
+      <div class="container-fluid">
+        <h1>Find the distance between two places.</h1>
+        <p>See the different parking areas in the Google Map.</p>
+        <form class="form-horizontal">
+          <div class="form-group">
+            <label for="from" class="col-xs-2 control-label"
+              ><i class="far fa-dot-circle"></i
+            ></label>
+            <div class="col-xs-4">
+              <input
+                type="text"
+                id="from"
+                placeholder="Origin"
+                class="form-control"
+              />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="to" class="col-xs-2 control-label"
+              ><i class="fas fa-map-marker-alt"></i
+            ></label>
+            <div class="col-xs-4">
+              <input
+                type="text"
+                id="to"
+                placeholder="Destination"
+                class="form-control"
+              />
+            </div>
+          </div>
+        </form>
+
+        <div class="col-xs-offset-2 col-xs-10">
+          <button class="btn btn-success btn-lg" onclick="calcRoute();">
+            <i class="fas fa-directions"> Get Direction </i>
+          </button>
+        </div>
+      </div>
+      <div class="container-fluid">
+        <div id="googleMap">
+          <!-- Map -->
+        </div>
+        <div id="output">
+          <!-- Output  -->
+        </div>
+      </div>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://maps.googleapis.com/maps/api/js?key= AIzaSyCqd1XS0Jt-VUrhm_x1nY9bmQEk5xwf8Sc&libraries=places"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="Scripts/jquery-3.1.1.min.js"></script>
+    <script src="map.js"></script>
   </body>
 </html>
+
+<!-- MY API KEY : AIzaSyBdgE4MyQVDaEhmUr8xc7NotCxyOWJ9r-s -->
+<!-- BILLED API KEY :  AIzaSyCqd1XS0Jt-VUrhm_x1nY9bmQEk5xwf8Sc -->
