@@ -74,3 +74,43 @@
   margin-top: 20px;
   letter-spacing: 1.25px;
 }
+
+/* jumbotron */
+
+.jumbotron {
+  background-color: transparent;
+  margin: 0;
+  padding: 10px;
+}
+
+.jumbotron h1 {
+  font-size: 2em;
+  font-weight: bold;
+}
+
+.jumbotron h1,
+.jumbotron p {
+  text-align: center;
+}
+
+.jumbotron p {
+  font-size: 1em;
+}
+
+/*map*/
+#googleMap {
+  width: 80%;
+  height: 400px;
+  margin: 10px auto;
+}
+
+/*output box*/
+#output {
+  text-align: center;
+  font-size: 2em;
+  margin: 20px auto;
+}
+
+#mode {
+  color: black;
+}
