@@ -30,10 +30,12 @@ app.use(passport.session());
 mongoose.connect(process.env.MONGO_SERVER, {useNewUrlParser: true , useUnifiedTopology: true});
 
 const userSchema = new mongoose.Schema({
-    email: String,
+    username: String,
     password: String,
     googleId: String, 
-    facebookId: String
+    facebookId: String,
+    nameofUser: String,
+    photoUrl: String
 });
 
 userSchema.plugin(passportLocalMongoose);
@@ -53,6 +55,7 @@ passport.deserializeUser(function(id, done) {
     });
 });
 
+var pic = "";
 /////////////// Google Sign In /////////////////
 passport.use(new GoogleStrategy({
     clientID: process.env.CLIENT_ID,
@@ -61,7 +64,11 @@ passport.use(new GoogleStrategy({
     userProfileURL: process.env.GOOGLE_PROFILE
   },
   function(accessToken, refreshToken, profile, cb) {
-    User.findOrCreate({ googleId: profile.id }, function (err, user) {
+      //console.log(profile);
+    User.findOrCreate({ googleId: profile.id, 
+                        nameofUser: profile.displayName, 
+                        photoUrl: profile.photos[0].value}, function (err, user) {
+        pic = profile.photos[0].value;
       return cb(err, user);
     });
   }
@@ -147,6 +154,7 @@ app.route("/register")
            res.redirect("/register");
        }else{
            passport.authenticate("local")(req, res, function(){
+               pic = "";
                res.redirect("/success");
            });
        }
@@ -161,7 +169,7 @@ app.get("/success", function(req,res){
             console.log(err);
         }else{
             if(foundUsers){
-                res.render("success");
+                res.render("success",{picUrl: pic});
             }
         }
     });
