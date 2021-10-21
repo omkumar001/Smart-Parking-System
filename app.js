@@ -8,7 +8,6 @@ const passport = require("passport");
 const passportLocalMongoose = require("passport-local-mongoose");
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const findOrCreate = require("mongoose-findorcreate");
-const FacebookStrategy = require('passport-facebook').Strategy;
 
 const app = express();
 
@@ -33,7 +32,6 @@ const userSchema = new mongoose.Schema({
     username: String,
     password: String,
     googleId: String, 
-    facebookId: String,
     nameofUser: String,
     photoUrl: String
 });
@@ -65,24 +63,12 @@ passport.use(new GoogleStrategy({
   },
   function(accessToken, refreshToken, profile, cb) {
       //console.log(profile);
-    User.findOrCreate({ googleId: profile.id, 
+      User.findOrCreate({username: profile.emails[0].value,
+                        googleId: profile.id,
                         nameofUser: profile.displayName, 
                         photoUrl: profile.photos[0].value}, function (err, user) {
         pic = profile.photos[0].value;
       return cb(err, user);
-    });
-  }
-));
-
-/////////////// Facebook Sign In //////////////////
-passport.use(new FacebookStrategy({
-    clientID: process.env.FACEBOOK_APP_ID,
-    clientSecret: process.env.FACEBOOK_APP_SECRET,
-    callbackURL: process.env.FACEBOOK_URL
-  },
-  function(accessToken, refreshToken, profile, cb) {
-    User.findOrCreate({ facebookId: profile.id }, function(err, user) {
-      return cb(err,user);
     });
   }
 ));
@@ -92,7 +78,7 @@ app.get("/", function(req,res){
 });
 
 app.get("/auth/google",
-  passport.authenticate("google", { scope: ["profile"] })
+  passport.authenticate("google", { scope: ["profile", "https://www.googleapis.com/auth/userinfo.email"] })
 );
 
 app.get("/auth/google/success", 
@@ -102,14 +88,6 @@ app.get("/auth/google/success",
     res.redirect("/success");
 });
 
-app.get("/auth/facebook", 
-    passport.authenticate("facebook")
-);
-
-app.get("/auth/facebook/success",
-  passport.authenticate("facebook", { successRedirect: "/success",
-                                      failureRedirect: "/login" })
-);
 /////////////// Log Out /////////////////
 app.get("/logout", function(req, res){
     req.logout();
@@ -131,7 +109,7 @@ app.route("/login")
 
     req.login(user, function(err){
         if(err){
-            console.log(err);
+            alert("Invalid Email or Password!!!");
         }else{
             passport.authenticate("local")(req, res, function(){
                 res.redirect("/success");
@@ -148,12 +126,12 @@ app.route("/register")
 
 .post(function(req,res){
 
-   User.register({username: req.body.username}, req.body.password, function(err,user){
+   User.register({username: req.body.username, nameofUser: req.body.nameofuser}, req.body.password,function(err,user){
        if(err){
-           console.log(err);
+           alert("User already exist");
            res.redirect("/register");
        }else{
-           passport.authenticate("local")(req, res, function(){
+           passport.authenticate("local")(req, res, function () {
                pic = "";
                res.redirect("/success");
            });

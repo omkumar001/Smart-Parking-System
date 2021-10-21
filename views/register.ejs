@@ -10,20 +10,20 @@
           <!-- Makes POST request to /register route -->
           <form action="/register" method="POST">
             <div class="form-group">
-              <input type="radio" id="user" name="usertype">
+              <input type="radio" id="user" name="usertype" value="Vehicle owner">
               <label for="user">Vehicle owner</label>
               <br>
-              <input type="radio" id="landown" name="usertype">
+              <input type="radio" id="landown" name="usertype" value="Land owner">
               <label for="landown">Land owner</label>
             </div>
 
             <div class="form-group">
               <label for="name">Name</label>
-              <input class="form-control" name="nameofuser">
+              <input class="form-control" name="nameofuser" autocomplete="off">
             </div>
             <div class="form-group">
               <label for="email">Email</label>
-              <input type="email" class="form-control" name="username">
+              <input type="email" class="form-control" name="username" autocomplete="off">
             </div>
             <div class="form-group">
               <label for="password">Password</label>
@@ -42,15 +42,6 @@
           <a class="btn btn-block btn-social btn-google" href="/auth/google" role="button">
             <i class="fab fa-google"></i>
             Sign Up with Google
-          </a>
-        </div>
-      </div>
-
-      <div class="card social-block">
-        <div class="card-body">
-          <a class="btn btn-block btn-social btn-facebook" href="/auth/facebook" role="button">
-            <i class="fab fa-facebook"></i>
-            Sign Up with Facebook
           </a>
         </div>
       </div>
