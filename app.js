@@ -53,7 +53,7 @@ passport.deserializeUser(function(id, done) {
     });
 });
 
-var pic = "";
+var pic = "",email= "", fname="";
 /////////////// Google Sign In /////////////////
 passport.use(new GoogleStrategy({
     clientID: process.env.CLIENT_ID,
@@ -67,7 +67,9 @@ passport.use(new GoogleStrategy({
                         googleId: profile.id,
                         nameofUser: profile.displayName, 
                         photoUrl: profile.photos[0].value}, function (err, user) {
-        pic = profile.photos[0].value;
+          pic = profile.photos[0].value;
+          email = profile.emails[0].value;
+          fname = profile.displayName;
       return cb(err, user);
     });
   }
@@ -81,11 +83,11 @@ app.get("/auth/google",
   passport.authenticate("google", { scope: ["profile", "https://www.googleapis.com/auth/userinfo.email"] })
 );
 
-app.get("/auth/google/success", 
+app.get("/auth/google/dashboard", 
   passport.authenticate("google", { failureRedirect: "/login" }),
   function(req, res) {
     // Successful authentication, redirect to secrets.
-    res.redirect("/success");
+    res.redirect("/dashboard");
 });
 
 /////////////// Log Out /////////////////
@@ -111,8 +113,17 @@ app.route("/login")
         if(err){
             alert("Invalid Email or Password!!!");
         }else{
-            passport.authenticate("local")(req, res, function(){
-                res.redirect("/success");
+            passport.authenticate("local")(req, res, function () {
+                pic = "https://bootdey.com/img/Content/avatar/avatar7.png";
+                email = user.username;
+                User.findOne({ username: email }, function (errr, foundUser) {
+                    if (errr) {
+                        console.log(err);
+                    } else {
+                        fname = foundUser.nameofUser;
+                    }
+                });
+                res.redirect("/dashboard");
             });
         }
     });
@@ -132,22 +143,30 @@ app.route("/register")
            res.redirect("/register");
        }else{
            passport.authenticate("local")(req, res, function () {
-               pic = "";
-               res.redirect("/success");
+            email = user.username;
+            pic = "https://bootdey.com/img/Content/avatar/avatar7.png";
+            User.findOne({ username: email }, function (errr, foundUser) {
+                if (!errr) {
+                    fname = foundUser.nameofUser;
+                } else {
+                    console.log(err);
+                }
+            });
+               res.redirect("/dashboard");
            });
        }
    });
 
 });
 
-app.get("/success", function(req,res){
+app.get("/dashboard", function(req,res){
     
     User.find({"success": {$ne : null}}, function(err, foundUsers){
         if(err){
             console.log(err);
         }else{
-            if(foundUsers){
-                res.render("success",{picUrl: pic});
+            if (foundUsers) {
+                res.render("dashboard",{picUrl: pic, fname: fname, email: email});
             }
         }
     });
