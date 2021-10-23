@@ -1,0 +1,36 @@
+<%- include('partials/header') %> 
+<div class="container mt-5">
+    <h1>Add Vehicle</h1>
+  
+    <div class="row">
+      <div class="col-sm-8">
+        <div class="card">
+          <div class="card-body">
+  
+            <!-- Makes POST request to /register route -->
+            <form action="/addVehicle" method="POST">
+              <div class="form-group">
+                <label for="vType">Vehicle Type</label>
+                <br>
+                <input type="radio" id="nonElec" name="vType" value="Non-Electric" autocomplete="off">
+                <label for="nonElec">Non-Electric</label>
+                <br>
+                <input type="radio" id="Elec" name="vType" value="Electric" autocomplete="off">
+                <label for="Elec">Electric</label>
+              </div>
+              <div class="form-group">
+                <label for="vNumber">Vehicle Number</label>
+                <input type="text" class="form-control" name="vNumber" autocomplete="off">
+              </div>
+              <button type="submit" class="btn btn-dark">Add</button>
+            </form>
+  
+          </div>
+        </div>
+      </div>
+  
+    </div>
+  </div>
+  
+
+<%- include('partials/footer') %>

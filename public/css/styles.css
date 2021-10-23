@@ -1,0 +1,36 @@
+
+body {
+  background-color: #E8ECEF;
+}
+
+.centered {
+    padding-top: 200px;
+    text-align: center;
+}
+
+.footer{
+  background-color: #D1C4E9;
+  margin:0px auto;
+  padding: 20px 0px 20px 0px;
+}
+html {
+scroll-behavior: smooth;
+}
+
+.navhead {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.navbar{
+ height: 10vh;
+}
+.brand{
+transform: rotate(-90deg);
+position: absolute;
+top: 80vh;
+}
+
