@@ -53,6 +53,16 @@ passport.deserializeUser(function(id, done) {
     });
 });
 
+//////////////// Vehicle Schema /////////////////
+const vehicleSchema = new mongoose.Schema({
+    vehicleType: String,
+    vehicleNumber: String,
+    owner: String
+});
+
+const Vehicle = new mongoose.model("Vehicle", vehicleSchema);
+vehicleSchema.plugin(findOrCreate);
+
 var pic = "",email= "", fname="";
 /////////////// Google Sign In /////////////////
 passport.use(new GoogleStrategy({
@@ -87,7 +97,8 @@ app.get("/auth/google/dashboard",
   passport.authenticate("google", { failureRedirect: "/login" }),
   function(req, res) {
     // Successful authentication, redirect to secrets.
-    res.redirect("/dashboard");
+      const uname = email.substring(0, email.indexOf('@'));
+    res.redirect("/dashboard/"+uname);
 });
 
 /////////////// Log Out /////////////////
@@ -123,7 +134,8 @@ app.route("/login")
                         fname = foundUser.nameofUser;
                     }
                 });
-                res.redirect("/dashboard");
+                const uname = email.substring(0, email.indexOf('@'));
+                res.redirect("/dashboard/"+uname);
             });
         }
     });
@@ -152,25 +164,56 @@ app.route("/register")
                     console.log(err);
                 }
             });
-               res.redirect("/dashboard");
+            const uname = email.substring(0, email.indexOf('@'));
+               res.redirect("/dashboard/"+uname);
            });
        }
    });
 
 });
 
-app.get("/dashboard", function(req,res){
-    
-    User.find({"success": {$ne : null}}, function(err, foundUsers){
-        if(err){
-            console.log(err);
-        }else{
-            if (foundUsers) {
-                res.render("dashboard",{picUrl: pic, fname: fname, email: email});
+app.route("/dashboard/:uname")
+    .get(function (req, res) {
+        User.find({ "success": { $ne: null } }, function (err, foundUsers) {
+            if (err) {
+                console.log(err);
+            } else {
+                if (foundUsers) {
+                    Vehicle.find({ owner: email }, function (errr, vehicles) {
+                        if (errr) {
+                            console.log(errr);
+                        }
+                        else {
+                            res.render("dashboard", { picUrl: pic, fname: fname, email: email, vehicleList: vehicles});
+                        }
+                    });
+                }
             }
-        }
+        });
     });
-});
+
+app.route("/addVehicle")
+    .get(function (req, res) {
+        res.render("addVehicle");
+    })
+    .post(function (req, res) {
+        const vehicle = new Vehicle({
+            vehicleType : req.body.vType,
+            vehicleNumber: req.body.vNumber,
+            owner: email
+        });
+        
+        Vehicle.create(vehicle, function (err, result) {
+            if (err) {
+                console.log(err);
+            }
+            else {
+                const uname = email.substring(0, email.indexOf("@"));
+                res.redirect("/dashboard/"+uname);
+            }
+        });
+
+    });
 
 app.listen(3000, function(){
     console.log("Server started on port 3000.");

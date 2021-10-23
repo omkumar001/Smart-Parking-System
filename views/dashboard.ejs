@@ -32,7 +32,7 @@
                         <br>      
                       <button class="btn btn-outline-primary"><a class="userProfile" href=""> Edit Profile </a></button>
                         <br>
-                      <button class="btn btn-outline-primary"><a class="userProfile" href="">My Tickets</a> </button>
+                      <button class="btn btn-outline-primary"><a class="userProfile" href="">My Bookings</a> </button>
                         <br>
                       
                     </ul>
@@ -60,7 +60,32 @@
                         </div>
                       </div>
                       <hr>
-                  
+
+                      <h3> Vehicle Details </h3>
+                      <hr>
+
+                      <% for(var i=0; i<vehicleList.length ; i++) { %>
+                        <div class="row">
+                          <div class="col-sm-3">
+                            <h6 class="mb-0">Vehicle Type</h6>
+                          </div>
+                          <div class="col-sm-9 text-secondary">
+                            <%= vehicleList[i].vehicleType %> 
+                          </div>
+                        </div>
+                        <hr>
+
+                        <div class="row">
+                          <div class="col-sm-3">
+                            <h6 class="mb-0">Vehicle Number</h6>
+                          </div>
+                          <div class="col-sm-9 text-secondary">
+                            <%= vehicleList[i].vehicleNumber %> 
+                          </div>
+                        </div>
+                        <hr>
+                      <% } %> 
+                      <a class="btn btn-dark" href="/addVehicle" role="button">Add Vehicle</a>
                     </div>
                   </div>
                   
