@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./CSS/bootstrap.min.css">
+    <link rel="stylesheet" href="./CSS/style.css">
+    <title>Slot Booking</title>
+</head>
+
+<body style="background-color:Orange;">
+    <header class="shadow">
+        <div class="header-content d-flex justify-content-center p-2">
+          <!-- <div class="logo-image">
+           <img src="./Images/park.png" class="img-fluid">
+     </div> -->
+            <!-- <img src="./Images/parking.svg" alt="" id="header-logo"> -->
+            <div id="header-msg" class="ml-3 align-self-center">Slot Booking</div>
+        </div>
+    </header>
+    <div class="form-container mt-5">
+        <form class="w-50 mx-auto" id="entryForm">
+            <h5 class="text-center">Book your slot</h5>
+            <div class="form-group">
+                <label for="owner">Owner:</label>
+                <input type="text" class="form-control rounded-0 shadow-sm" id="owner" placeholder="Owner">
+            </div>
+            <div class="form-group">
+              <label for="cars">Choose a Vehicle Type:</label>
+              <select id="inputState" class="form-control">
+                    <option>Electric Vehicle</option>
+                  <option>Non-Electric Vehicle</option>
+             </select>
+            </div>
+            <div class="form-group">
+                <label for="licensePlate">Vehicle Reg. No.:</label>
+                <input type="text" class="form-control rounded-0 shadow-sm" id="regno" placeholder="NN-NN-LL,NN-LL-NN,....etc">
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <label for="entryDate">Entry Date:</label>
+                    <input type="date" class="form-control rounded-0 shadow-sm" id="entryDate">
+                </div>
+                <div class="col-6">
+                    <label for="entryTime">Entry Time:</label>
+                    <input type="time" class="form-control rounded-0 shadow-sm" id="entryTime">
+                </div>
+                <div class="col-6">
+                    <label for="exitDate">Exit Date:</label>
+                    <input type="date" class="form-control rounded-0 shadow-sm" id="exitDate">
+                </div>
+                <div class="col-6">
+                    <label for="exitTime">Exit Time:</label>
+                    <input type="time" class="form-control rounded-0 shadow-sm" id="exitTime">
+                </div>
+            </div>
+            <button type="submit" class="btn mx-auto d-block mt-5 rounded-0 shadow" id="btnOne">Book Slot</button>
+        </form>
+    </div>
+</body>
+
+</html>
