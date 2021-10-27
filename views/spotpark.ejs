@@ -1,0 +1,60 @@
+<%- include('partials/header') %>
+
+<!-- <h1>Embedding the Google Map.</h1> -->
+
+<div class="jumbotron map">
+
+    <!-- 1st container -->
+<div class="container-fluid">
+
+    <h1 class="detail">Find the distance between two places.</h1>
+    <p class="detail">See the different parking areas in the Google Map</p>
+
+
+    <form class="form-horizontal" >
+
+
+      <div class="form-group">
+        <label for="from" class="col-xs-2 control label"> <i class="far fa-dot-circle"></i> </label>
+        <div class="col-xs-4">  <input type="text" id="from" placeholder="Origin" class="form-control"/> </div>
+      </div>
+
+      <div class="form-group">
+        <label for="to" class="col-xs-2 control label"> <i class="fas fa-map-marker-alt"></i> </label>
+        <div class="col-xs-4">  <input type="text" id="to" placeholder="Destination" class="form-control"/> </div>
+      </div>
+
+    </form>
+
+     <div class="col-xs-offset-2 col-xs-10">
+        <button class="btn btn-info btn-lg " onclick="calcRoute();"><i class="fas fa-directions"></i></button>
+     </div>
+
+ </div>
+
+ <!-- 2nd container -->
+ <div class="container-fluid">
+
+    <div id="googleMap">
+ 
+     </div>
+
+      <div id="output">
+                <!-- output -->
+      </div>
+
+   </div>  
+  <!-- 2nd container ends  -->
+
+</div>
+<!-- jumbotron ends here -->
+
+
+
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBdgE4MyQVDaEhmUr8xc7NotCxyOWJ9r-s&libraries=places"></script>
+<script src="map.js"></script>
+
+
+<%- include('partials/footer') %>
