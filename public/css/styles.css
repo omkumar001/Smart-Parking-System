@@ -1,55 +1,36 @@
+
 body {
-  font-family: "Montserrat";
+  background-color: #E8ECEF;
 }
-#title {
-  background-image: url("../images/Bequeath.png");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
+
+.centered {
+    padding-top: 200px;
+    text-align: center;
 }
-.heading {
-  font-family: "Cinzel", serif;
-  margin-top: 30px;
-  text-align: center;
-  margin-right: 22px;
-  font-size: 125px;
-  color: white;
-  text-shadow: 10px 10px 15px black;
-  margin-bottom: -210px;
+
+.footer{
+  background-color: #D1C4E9;
+  margin:0px auto;
+  padding: 20px 0px 20px 0px;
 }
-.tagline {
-  font-family: "Courgette", cursive;
-  margin-top: 100px;
-  text-shadow: 5px 5px 5px black;
-  padding-top: 35px;
-  font-size: 45px;
-  color: white;
-  /* font-weight: bold; */
-  letter-spacing: 2px;
-  padding-bottom: 140px;
-  padding-left: 0px;
-  margin-bottom: 100px;
-  text-align: center;
+html {
+scroll-behavior: smooth;
 }
-.navimg {
-  height: 100px;
-  border-radius: 50px;
+
+.navhead {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
-.navbar {
-  padding: 0;
-  height: 10rem;
-  width: auto;
-  padding-bottom: 0;
-  padding-top: 0;
+.navbar{
+ height: 10vh;
 }
-.navbar-brand {
-  font-family: "Permanent Marker", cursive;
-  font-size: 4rem;
+.brand{
+transform: rotate(-90deg);
+position: absolute;
+top: 80vh;
 }
-.container-fluid {
-  padding: 0 10% 10% 15%;
-  line-height: 4;
-  font-size: 25px;
-  height: 100%;
-  width: auto;
-}
+
