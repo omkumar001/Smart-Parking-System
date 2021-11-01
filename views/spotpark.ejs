@@ -1,60 +1,196 @@
 <%- include('partials/header') %>
 
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary navhead">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/" id="topone">
+      Park Up
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+       
+        <li class="nav-item">
+          <a class="btn btn-dark" href="/dashboard" role="button">Dashboard</a>
+        </li>
+      
+        <span style="width: 10px;"> </span>
+        
+        <li class="nav-item">
+          <a class="btn btn-light" href="/logout" role="button">Logout</a>
+        </li>
+        <span style="width: 10px;"> </span>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+<!-- navbar ends -->
+
+
+
 <!-- <h1>Embedding the Google Map.</h1> -->
 
-<div class="jumbotron map">
-
+<!-- <div class="fluid-container "> -->
     <!-- 1st container -->
-<div class="container-fluid">
 
-    <h1 class="detail">Find the distance between two places.</h1>
+   
+
+  
+  <div class="title-find">
+    <h1 class="detail">Find the Nearest Parking Slot.</h1>
     <p class="detail">See the different parking areas in the Google Map</p>
 
-
-    <form class="form-horizontal" >
-
-
-      <div class="form-group">
-        <label for="from" class="col-xs-2 control label"> <i class="far fa-dot-circle"></i> </label>
-        <div class="col-xs-4">  <input type="text" id="from" placeholder="Origin" class="form-control"/> </div>
-      </div>
-
-      <div class="form-group">
-        <label for="to" class="col-xs-2 control label"> <i class="fas fa-map-marker-alt"></i> </label>
-        <div class="col-xs-4">  <input type="text" id="to" placeholder="Destination" class="form-control"/> </div>
-      </div>
-
-    </form>
-
-     <div class="col-xs-offset-2 col-xs-10">
-        <button class="btn btn-info btn-lg " onclick="calcRoute();"><i class="fas fa-directions"></i></button>
-     </div>
-
- </div>
-
- <!-- 2nd container -->
- <div class="container-fluid">
-
-    <div id="googleMap">
+    <div class="d-flex flex-nowrap bd-highlight sbar ">
+      <div class="order-1 p-2 bd-highlight"> <input type="text" id="from"  placeholder="Origin" class="form-control"/> </div>
+      <div class="order-2 p-2 bd-highlight"> <input type="text" id="to" placeholder="Destination" class="form-control"/></div>
+      <div class="order-3 p-2 bd-highlight">  <button class="btn btn-primary btn-lg " onclick="calcRoute();"><i class="fas fa-directions"></i></button> </div>
+    </div>
+  </div>
  
-     </div>
+ 
+  <div class="row places-park">
+    <%  for(var i=0;i<slot.length;i++) { %>  
+    <div class="col-lg-3">
+      <div class="card">
+        <a  style="text-decoration: none;" class="park-card"  href="/slotbook">
+        <div class="card-header" id="too" data-value="<%= slot[i].location %>">
+        <%= slot[i].location %>   
+        </div>
+      </a>
+        <div class="card-body">
+          <h5 class="card-title">Mon-Sun ( Open )</h5>
+          <p class="card-text">
+            <div class="d-flex flex-nowrap charge">
+              <div class="order-1 p-2">1 Hour   ₹<%= slot[i].ncharge1 %>.00 </div>
+              <div class="order-2 p-2">2 Hours  ₹<%= slot[i].ncharge2 %>.00</div>
+              <div class="order-3 p-2">3 Hours  ₹<%= slot[i].ncharge3 %>.00</div>
+            </div>
+          </p>
 
-      <div id="output">
-                <!-- output -->
+          <a href="/slotbook" class="btn btn-outline-primary">Book Now</a>  <small class="text-muted slot">  <%= slot[i].nSlot %> slots left  </small> 
+        </div>
       </div>
+    </div>
+    <%  } %> 
+  </div>
+   
+    <!-- 2nd container -->
+   <div class="container-fluid map ">
 
-   </div>  
-  <!-- 2nd container ends  -->
+    <div id="output">
+      <!-- Output -->
+    </div>
 
-</div>
+     <div id="googleMap">
+       <!-- Map -->
+     </div>
+    </div> 
+    <!-- 2nd container ends  -->
+
 <!-- jumbotron ends here -->
 
 
-
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://maps.googleapis.com/maps/api/js?key= AIzaSyCqd1XS0Jt-VUrhm_x1nY9bmQEk5xwf8Sc&libraries=places"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBdgE4MyQVDaEhmUr8xc7NotCxyOWJ9r-s&libraries=places"></script>
-<script src="map.js"></script>
+<script src="Scripts/jquery-3.1.1.min.js"></script>
+
+
+<!----------------------------------------------------------------------------------------------------------- -->
+<!---------------------------------------------- GOOGLE MAP ------------------------------------------------- -->
+
+
+<script >
+
+var myLatLng = { lat: 28.6138954, lng: 77.2090057 }; // my current longitude and latitude .....
+
+var mapOptions = {
+  center: myLatLng,
+  zoom: 8,
+  mapTypeId: google.maps.MapTypeId.ROADMAP,
+};
+
+//create map
+var map = new google.maps.Map(document.getElementById("googleMap"), mapOptions);
+
+//create a DirectionsService object to use the route method and get a result for our request
+var directionsService = new google.maps.DirectionsService();
+
+//create a DirectionsRenderer object which we will use to display the route
+var directionsDisplay = new google.maps.DirectionsRenderer();
+
+//bind the DirectionsRenderer to the map
+directionsDisplay.setMap(map);
+
+//define calcRoute function
+function calcRoute() {
+  //create request
+  var request = {
+    origin: document.getElementById("from").value,
+    destination: document.getElementById("too").getAttribute('data-value'),
+    travelMode: google.maps.TravelMode.TRANSIT, //WALKING, BYCYCLING, TRANSIT
+    // travelModeWalk: google.maps.TravelMode.WALKING,
+    // travelModeCycle: google.maps.TravelMode.BYCYCLING,
+    // travelModeTransit: google.maps.TravelMode.TRANSIT,
+    unitSystem: google.maps.UnitSystem.METRIC,
+  };
+
+  //pass the request to the route method
+  directionsService.route(request, function (result, status) {
+    if (status == google.maps.DirectionsStatus.OK) {
+      //Get distance and time
+      const output = document.querySelector("#output");
+      output.innerHTML =
+        "<div class='alert-info'>From: " +
+        document.getElementById("from").value +
+        ".<br />To: " +
+        document.getElementById("too").getAttribute('data-value') +
+        ".<br /> Driving distance <i class='fas fa-road'></i> : " +
+        result.routes[0].legs[0].distance.text +
+        ".<br />Duration <i class='fas fa-hourglass-start'></i> : " +
+        result.routes[0].legs[0].duration.text +
+        ".</div>";
+
+      //display route
+      directionsDisplay.setDirections(result);
+    } else {
+      //delete route from map
+      directionsDisplay.setDirections({ routes: [] });
+      //center map in New Delhi
+      map.setCenter(myLatLng);
+
+      //show error message
+      output.innerHTML =
+        "<div class='alert-danger'><i class='fas fa-exclamation-triangle'></i> Could not retrieve driving distance.</div>";
+    }
+  });
+}
+
+//create autocomplete objects for all inputs types
+var options = {
+  types: [], //"(cities)"
+};
+
+var input1 = document.getElementById("from");
+var autocomplete1 = new google.maps.places.Autocomplete(input1, options);
+
+var input2 = document.getElementById("to");
+var autocomplete2 = new google.maps.places.Autocomplete(input2, options);
+
+</script>
+
+<!-- ----------------------------------------------------------------------------------- -->
+<!-- Script for implementing and searching in google Map ends here ------- -->
 
 
 <%- include('partials/footer') %>
+
+
+<!-- MY API KEY : AIzaSyBdgE4MyQVDaEhmUr8xc7NotCxyOWJ9r-s -->
+<!-- BILLED API KEY :  AIzaSyCqd1XS0Jt-VUrhm_x1nY9bmQEk5xwf8Sc -->
