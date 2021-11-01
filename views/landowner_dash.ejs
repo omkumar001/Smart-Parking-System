@@ -1,0 +1,126 @@
+<%- include('partials/header') %>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary navhead">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/" id="topone">
+          Park Up
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+
+          <ul class="navbar-nav ml-auto">    
+            <span style="width: 10px;"> </span>
+            <li class="nav-item">
+              <a class="btn btn-light" href="/logout" role="button">Logout</a>
+            </li>
+            <span style="width: 10px;"> </span>
+          </ul>
+
+        </div>
+      </div>
+  </nav>
+ <!-- navbar ends -->
+
+    <div class="container">
+        <div class="main-body">
+        
+              <div class="row gutters-sm">
+                <div class="col-md-4 mb-3">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="d-flex flex-column align-items-center text-center">
+                        <img src=" <%= picUrl  %> " alt="Admin" class="rounded-circle" width="150">       
+                        <div class="mt-3">
+                          <h2><%= fname  %> </h2> 
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card mt-3">
+                    <ul class="list-group list-group-flush">
+
+                      <button class="btn btn-outline-primary"><a class="userProfile" href="">View Profile</a></button>
+                        <br>      
+                      <button class="btn btn-outline-primary"><a class="userProfile" href=""> Edit Profile </a></button>
+                        <br>
+                      <button class="btn btn-outline-primary"><a class="userProfile" href="">My Lands</a> </button>
+                        <br>
+                      
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="col-md-8">
+                  <div class="card mb-3" >
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <h6 class="mb-0">Full Name</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary">
+                          <%= fname  %>   
+                        </div>
+                      </div>
+                      <hr>
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <h6 class="mb-0">Email</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary">
+                        <%=  email    %> 
+                        </div>
+                      </div>
+                      <hr>
+
+                      <h3> Land Details </h3>
+                      <hr>
+
+                     <%  for(var i=0; i< LandList.length ; i++) { %>
+                        <div class="row">
+                          <div class="col-sm-3">
+                            <h6 class="mb-0">No. of Slots</h6>
+                          </div>
+                          <div class="col-sm-9 text-secondary">
+                            <%=  LandList[i].nSlot %> 
+                          </div>
+                        </div>
+                        <hr>
+
+                        <div class="row">
+                          <div class="col-sm-3">
+                            <h6 class="mb-0">Land Location</h6>
+                          </div>
+                          <div class="col-sm-9 text-secondary">
+                            <%= LandList[i].location %> 
+                          </div>
+                        </div>
+                        <hr>
+
+                        <div class="row">
+                          <div class="col-sm-3">
+                            <h6 class="mb-0">Hourly Charge</h6>
+                          </div>
+                          <div class="col-sm-9 text-secondary">
+                             <%= LandList[i].ncharge1 %> Rs./hr ,  <%= LandList[i].ncharge2 %> Rs./2 hr , <%= LandList[i].ncharge3 %> Rs./3 hr
+                          </div>
+                        </div>
+                        <hr>
+
+                        
+                    <% } %> 
+                      <a class="btn btn-dark" href="/addLand" role="button">Add Land</a>
+                    </div>
+                  </div>
+                  
+                    
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+<%- include('partials/footer') %>
