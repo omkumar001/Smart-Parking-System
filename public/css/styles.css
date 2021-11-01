@@ -1,20 +1,20 @@
-
 body {
-  background-color: #E8ECEF;
+  background-color: #e8ecef;
 }
 
 .centered {
-    padding-top: 200px;
-    text-align: center;
+  padding-top: 200px;
+  text-align: center;
 }
 
-.footer{
-  background-color: #D1C4E9;
-  margin:0px auto;
+.footer {
+  background-color: #d1c4e9;
+  margin: 100px auto;
   padding: 20px 0px 20px 0px;
 }
+
 html {
-scroll-behavior: smooth;
+  scroll-behavior: smooth;
 }
 
 .navhead {
@@ -25,12 +25,31 @@ scroll-behavior: smooth;
   top: 0;
   z-index: 100;
 }
-.navbar{
- height: 10vh;
+.navbar {
+  height: 10vh;
 }
-.brand{
-transform: rotate(-90deg);
-position: absolute;
-top: 80vh;
+.brand {
+  transform: rotate(-90deg);
+  position: absolute;
+  top: 80vh;
 }
 
+/* CSS for the Map View */
+
+.map h1 {
+  letter-spacing: 1px;
+  font-size: 2em;
+  font-weight: bold;
+}
+
+/* Map View  CSS Ends */
+
+.cost {
+  width: 400px;
+  text-align: center;
+}
+
+
+.park-card{
+color: black;
+}

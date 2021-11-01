@@ -1,0 +1,42 @@
+* {
+  font-family: "Roboto", sans-serif;
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+#btnOne {
+  background-color: rgb(25, 120, 197);
+  color: white;
+}
+#btnOne:focus,
+#btnOne:hover {
+  box-shadow: none;
+  outline: none;
+}
+
+#tableHead {
+  background-color: rgb(25, 120, 197);
+}
+#searchInput {
+  height: calc(1.5em + 0.75rem + 2px);
+  padding: 0.375rem 0.75rem;
+  border-bottom: 1px solid #ced4da;
+}
+
+#searchInput:hover,
+#searchInput:focus {
+  box-shadow: none;
+  outline: none;
+}
+
+.logo {
+  margin-left: -1100px;
+}
+
+
+.text-center{
+font-size: xx-large;
+font-weight: bold;
+font-family:cursive;
+}
