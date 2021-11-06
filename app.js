@@ -78,7 +78,7 @@ var pic = "",
   fname = "";
 /////////////// Google Sign In /////////////////
 
-passport.use(
+passport.use( "google",
   new GoogleStrategy(
     {
       clientID: process.env.CLIENT_ID,
@@ -265,18 +265,6 @@ app
   
   const LandOwner = new mongoose.model("LandOwner", landownerSchema);
   
-  passport.use(LandOwner.createStrategy());
-  
-  // passport.serializeUser(function (landowner, done) {
-  //   done(null, landowner.id);
-  // });
-  
-  // passport.deserializeUser(function (id, done) {
-  //   LandOwner.findById(id, function (err, landowner) {
-  //     done(err, landowner);
-  //   });
-  // });
-  
   //////////////// Land Schema /////////////////
   const LandSchema = new mongoose.Schema({
     nSlot:  Number,
@@ -295,123 +283,51 @@ app
     ownfname = "";
   /////////////// Google Sign In /////////////////
 
-  // passport.use(
-  //   new GoogleStrategy(
-  //     {
-  //       clientID: process.env.CLIENT_ID,
-  //       clientSecret: process.env.CLIENT_SECRET,
-  //       callbackURL:process.env.GOOGLE_URL_LAND ,
-  //       userProfileURL: process.env.GOOGLE_PROFILE,
-  //     },
-  //     function (accessToken, refreshToken, profile, cb) {
+  passport.use( "google-alt",
+    new GoogleStrategy(
+      {
+        clientID: process.env.CLIENT_ID,
+        clientSecret: process.env.CLIENT_SECRET,
+        callbackURL:process.env.GOOGLE_URL_LAND ,
+        userProfileURL: process.env.GOOGLE_PROFILE,
+      },
+      function (accessToken, refreshToken, profile, cb) {
 
-  //       LandOwner.findOrCreate(
-  //         {
-  //           owneruname: profile.emails[0].value,
-  //           ownergoogleId: profile.id,
-  //           nameofOwner: profile.displayName,
-  //           ownerphotoUrl: profile.photos[0].value,
-  //         },
-  //         function (err, owner) {
-  //           ownpic = profile.photos[0].value;
-  //           ownemail = profile.emails[0].value;
-  //           ownfname = profile.displayName;
-  //           return cb(err, owner);
-  //         }
-  //       );
-  //     }
-  //   )
-  // );
-
- 
-  
-  // app.get(
-  //   "/auth/google",
-  //   passport.authenticate("google", {
-  //     scope: ["profile", "https://www.googleapis.com/auth/userinfo.email"],
-  //   })
-  // );
-  
-  // app.get(
-  //   "/auth/google/landowner_dash",
-  //   passport.authenticate("google", { failureRedirect: "/login_landowner" }),
-  //   function (req, res) {
-  //     // Successful authentication, redirect to secrets.
-  //     const oname = ownemail.substring(0, ownemail.indexOf("@"));
-  //     res.redirect("/landowner_dash/" + oname);
-  //   }
-  // );
-
-/////////////// Register /////////////////
-app
-  .route("/register_landowner")
-  .get(function (req, res) {
-    res.render("register_landowner");
-  })
-
-  .post(function (req, res) {
-    LandOwner.register(
-      { username: req.body.username, nameofOwner: req.body.nameofOwner },
-      req.body.password,
-      function (err, user) {
-        if (err) {
-          alert("User already exist");
-          res.redirect("/register_landowner");
-        } else {
-          passport.authenticate("local")(req, res, function () {
-            ownemail = user.username;
-            ownpic = "https://bootdey.com/img/Content/avatar/avatar7.png";
-            LandOwner.findOne({ username: ownemail }, function (errr, foundUser) {
-              if (!errr) {
-                ownfname = foundUser.nameofOwner;
-              } else {
-                console.log(errr);
-              }
-            });
-            const oname = ownemail.substring(0, ownemail.indexOf("@"));
-            res.redirect("/landowner_dash/" + oname);
-          });
-        }
+        LandOwner.findOrCreate(
+          {
+            owneruname: profile.emails[0].value,
+            ownergoogleId: profile.id,
+            nameofOwner: profile.displayName,
+            ownerphotoUrl: profile.photos[0].value,
+          },
+          function (err, owner) {
+            ownpic = profile.photos[0].value;
+            ownemail = profile.emails[0].value;
+            ownfname = profile.displayName;
+            return cb(err, owner);
+          }
+        );
       }
-    );
-  });
-/////////////// Log In /////////////////
-  app
-    .route("/login_landowner")
-    .get(function (req, res) {
-      res.render("login_landowner");
+    )
+  );
+  
+  app.get(
+    "/auth/google/landowner",
+    passport.authenticate("google-alt", {
+      scope: ["profile", "https://www.googleapis.com/auth/userinfo.email"],
     })
+  );
   
-    .post(function (req, res) {
-
-      const user = new LandOwner({
-        username: req.body.username,
-        ownerpass: req.body.ownerpass,
-      });
-  
-      req.login(user, function (err) {
-        if (err) {
-          console.log(err);
-          alert("Invalid Email or Password!!!");
-        } else {
-          passport.authenticate("local")(req , res, function () {
-            ownpic = "https://bootdey.com/img/Content/avatar/avatar7.png";
-            ownemail = user.username;
-            LandOwner.findOne({  username: ownemail }, function (errr, foundOwner) {
-              if (errr) {
-                console.log(errr);
-              } else {
-                ownfname = foundOwner.nameofOwner;
-              }
-            });
-            const oname = ownemail.substring(0, ownemail.indexOf("@"));
-            res.redirect("/landowner_dash/" + oname);
-          });
-          //console.log(user);
-        }
-      });
-    });
-   
+  app.get(
+    "/auth/google/landowner_dash",
+    passport.authenticate("google-alt", { failureRedirect: "/login_landowner" }),
+    function (req, res) {
+      // Successful authentication, redirect to secrets.
+      const oname = ownemail.substring(0, ownemail.indexOf("@"));
+      res.redirect("/landowner_dash/" + oname);
+    }
+  );
+ 
   app.route("/landowner_dash/:oname").get(function (req, res) {
     LandOwner.find({ success: { $ne: null } }, function (err, foundOwners) {
       if (err) {
