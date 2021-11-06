@@ -14,7 +14,7 @@
       <ul class="navbar-nav ml-auto">
        
         <li class="nav-item">
-          <a class="btn btn-dark" href="/dashboard" role="button">Dashboard</a>
+          <a class="btn btn-dark" href="/dashboard/<%=usename %>" role="button">Dashboard</a>
         </li>
       
         <span style="width: 10px;"> </span>
@@ -46,7 +46,7 @@
 
     <div class="d-flex flex-nowrap bd-highlight sbar ">
       <div class="order-1 p-2 bd-highlight"> <input type="text" id="from"  placeholder="Origin" class="form-control"/> </div>
-      <div class="order-2 p-2 bd-highlight"> <input type="text" id="to" placeholder="Destination" class="form-control"/></div>
+      <div class="order-2 p-2 bd-highlight"> <input type="text" id="too" placeholder="Destination" class="form-control"/></div>
       <div class="order-3 p-2 bd-highlight">  <button class="btn btn-primary btn-lg " onclick="calcRoute();"><i class="fas fa-directions"></i></button> </div>
     </div>
   </div>
@@ -55,9 +55,9 @@
   <div class="row places-park">
     <%  for(var i=0;i<slot.length;i++) { %>  
     <div class="col-lg-3">
-      <div class="card">
-        <a  style="text-decoration: none;" class="park-card"  href="/slotbook">
-        <div class="card-header" id="too" data-value="<%= slot[i].location %>">
+      <div class="card ">
+        <a  style="text-decoration: none;" class="park-card"  onclick="calcRoute('<%= i %>');">
+        <div class="card-header" id="to<%=i %>" data-value="<%= slot[i].location %>">
         <%= slot[i].location %>   
         </div>
       </a>
@@ -70,8 +70,12 @@
               <div class="order-3 p-2">3 Hours  ₹<%= slot[i].ncharge3 %>.00</div>
             </div>
           </p>
-
-          <a href="/slotbook" class="btn btn-outline-primary">Book Now</a>  <small class="text-muted slot">  <%= slot[i].nSlot %> slots left  </small> 
+         
+          <form action="/spotpark/<%=usename %>" method="POST">
+          <input type="hidden" name="plocation" value="<%= slot[i].location %>" >
+        <button type="submit" class="btn btn-outline-primary">   Book Now  </button> 
+         <small class="text-muted slot">  <%= slot[i].nSlot %> slots left  </small> 
+        </form>
         </div>
       </div>
     </div>
@@ -129,12 +133,18 @@ var directionsDisplay = new google.maps.DirectionsRenderer();
 //bind the DirectionsRenderer to the map
 directionsDisplay.setMap(map);
 
+var my_currentloc="Block F, Block VB, Virender Nagar, Janakpuri, New Delhi, Delhi, India";
+
 //define calcRoute function
-function calcRoute() {
+function calcRoute(z) {
+  
+  // var z=1;
+  z.toString();
+
   //create request
   var request = {
-    origin: document.getElementById("from").value,
-    destination: document.getElementById("too").getAttribute('data-value'),
+    origin: my_currentloc , //document.getElementById("from").value,
+    destination:document.getElementById("to"+z).getAttribute('data-value'),
     travelMode: google.maps.TravelMode.TRANSIT, //WALKING, BYCYCLING, TRANSIT
     // travelModeWalk: google.maps.TravelMode.WALKING,
     // travelModeCycle: google.maps.TravelMode.BYCYCLING,
@@ -147,11 +157,12 @@ function calcRoute() {
     if (status == google.maps.DirectionsStatus.OK) {
       //Get distance and time
       const output = document.querySelector("#output");
+
       output.innerHTML =
         "<div class='alert-info'>From: " +
-        document.getElementById("from").value +
+          my_currentloc +//document.getElementById("from").value +
         ".<br />To: " +
-        document.getElementById("too").getAttribute('data-value') +
+        document.getElementById("to"+z).getAttribute('data-value') +
         ".<br /> Driving distance <i class='fas fa-road'></i> : " +
         result.routes[0].legs[0].distance.text +
         ".<br />Duration <i class='fas fa-hourglass-start'></i> : " +
@@ -171,7 +182,10 @@ function calcRoute() {
         "<div class='alert-danger'><i class='fas fa-exclamation-triangle'></i> Could not retrieve driving distance.</div>";
     }
   });
+
 }
+
+
 
 //create autocomplete objects for all inputs types
 var options = {

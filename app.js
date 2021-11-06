@@ -211,11 +211,15 @@ app.route("/dashboard/:uname").get(function (req, res) {
           if (errr) {
             console.log(errr);
           } else {
+
+            const username = email.substring(0, email.indexOf("@"));
+
             res.render("dashboard", {
               picUrl: pic,
               fname: fname,
               email: email,
               vehicleList: vehicles,
+              usename : username,
             });
           }
         });
@@ -223,6 +227,7 @@ app.route("/dashboard/:uname").get(function (req, res) {
     }
   });
 });
+
 
 app
   .route("/addVehicle")
@@ -247,9 +252,99 @@ app
   });
 
 
+ //For spotpark part
+ var parkLocation="";
+
+app
+.route("/spotpark/:uname")
+.get(function (req, res) {
+
+ User.find({ success: { $ne: null } }, function (err, foundUsers) {
+ if (err) {
+ console.log(err);
+  } else {
+  if (foundUsers) {
+  
+    Land.find({ success: { $ne: null } }, function (err, foundSlot) {
+      if (err) {
+        console.log(err);
+      } else {
+        const uname = email.substring(0, email.indexOf("@"));
+         res.render("spotpark", { slot:foundSlot ,usename :uname ,}); 
+         }
+    });
+
+      } //if ends
+    } //else ends
+  });
+ })
+  .post(function (req, res) {
+    parkLocation=req.body.plocation;
+    const uname = email.substring(0, email.indexOf("@"));
+    res.redirect("/slotbook/"+uname );
+    });
+
+
+
+    //Creating Booking Schema
+    const bookingSchema = new mongoose.Schema({
+      vehicleType: String,
+      vehicleNumber: String,
+      ownername : String,
+      parkLocation :String
+    });
     
+    const Booking= new mongoose.model("Booking", bookingSchema);
+    bookingSchema.plugin(findOrCreate);
+
+
+    app
+.route("/slotbook/:uname")
+.get(function (req, res) {
+ User.find({ success: { $ne: null } }, function (err, foundUsers) {
+ if (err) {
+ console.log(err);
+  } else {
+   var name= foundUsers[0].nameofUser;
+   const uname = email.substring(0, email.indexOf("@"));
+  if (foundUsers) {
+
+    Vehicle.find({ success: { $ne: null } }, function (err, foundVehicles) {
+      if (err) {
+        console.log(err);
+      } else {
+       
+         res.render("slotbook", { vechile:foundVehicles ,ownername :name , usename:uname, parkLoc : parkLocation,}); 
+         }
+    });
+
+      } //if ends
+    } //else ends
+  });
+ })
+  .post(function (req, res) {
+
+    const booking = new Booking({
+      vehicleType: req.body.type,
+      vehicleNumber: req.body.regno,
+      ownername: req.body.owner,
+      parkLocation:req.body.location,
+    });
+
+    Booking.create(booking, function (err, result) {
+      if (err) {
+        console.log(err);
+      } else {
+         const uname = email.substring(0, email.indexOf("@"));
+          res.redirect("/dashboard/" + uname);    
+      }
+    });
+    });
+
   //------------------------------------------------ USER ROUTING ENDS -----------------------------------------------------
 
+
+  
   // ---------------------------- Land Owner Schema Starts ---------------------------
 
   const landownerSchema = new mongoose.Schema({
@@ -295,7 +390,7 @@ app
 
         LandOwner.findOrCreate(
           {
-            owneruname: profile.emails[0].value,
+            username: profile.emails[0].value,
             ownergoogleId: profile.id,
             nameofOwner: profile.displayName,
             ownerphotoUrl: profile.photos[0].value,
@@ -382,36 +477,31 @@ app
 
 
 
-  app
-  .route("/spotpark")
-  .get(function (req, res) {
+//   app
+//   .route("/spotpark")
+//   .get(function (req, res) {
 
-   Land.find({ success: { $ne: null } }, function (err, foundSlot) {
-      if (err) {
-        console.log(err);
-      } else {
-         res.render("spotpark", { slot:foundSlot });  }
-    })
- })
-  .post(function (req, res) {
-    // const vehicle = new Vehicle({
-    //   vehicleType: req.body.vType,
-    //   vehicleNumber: req.body.vNumber,
-    //   owner: email,
-    });
+//    Land.find({ success: { $ne: null } }, function (err, foundSlot) {
+//       if (err) {
+//         console.log(err);
+//       } else {
+//          res.render("spotpark", { slot:foundSlot });  }
+//     })
+//  })
+//   .post(function (req, res) {
+//     // const vehicle = new Vehicle({
+//     //   vehicleType: req.body.vType,
+//     //   vehicleNumber: req.body.vNumber,
+//     //   owner: email,
+//     });
 
 
-  app.get("/slotbook", function (req, res) {
-    res.render("slotbook");
-  });
+//   app.get("/slotbook", function (req, res) {
+//     res.render("slotbook");
+//   });
   
   
-  app.get("/slotpark", function (req, res) {
-    res.sendFile(__dirname + "/Index.html");
-  });
 
-
-  
 
 app.listen(3000, function () {
   console.log("Server started on port 3000.");
