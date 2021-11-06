@@ -59,8 +59,47 @@ html {
   margin-right: 1%;
 }
 
-.card-header:hover {
-  width: 250px;
-  box-shadow: 10px 10px 5px grey;
-  text-align: center;
-} */
+.park-card{
+color: black;
+}
+
+/* CSS for land owner sign up */
+.dropbtn {
+  background-color: rgb(25, 120, 197);
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 200px;
+  min-height: 5px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown:hover .dropbtn {
+  background-color: rgb(18, 85, 139);
+}
+
+.dropdown-content a:hover {background-color: rgba(0,0,0,0.2)}
