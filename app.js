@@ -300,10 +300,10 @@ app
     const Booking= new mongoose.model("Booking", bookingSchema);
     bookingSchema.plugin(findOrCreate);
 
+
     app
 .route("/slotbook/:uname")
 .get(function (req, res) {
-
  User.find({ success: { $ne: null } }, function (err, foundUsers) {
  if (err) {
  console.log(err);
@@ -344,11 +344,12 @@ app
     });
     });
 
-
-    
   //------------------------------------------------ USER ROUTING ENDS -----------------------------------------------------
 
 
+
+
+  
 
 
 
