@@ -335,8 +335,8 @@ app
       if (err) {
         console.log(err);
       } else {
-        const uname = email.substring(0, email.indexOf("@"));
-        res.redirect("/dashboard/" + uname);
+         const uname = email.substring(0, email.indexOf("@"));
+          res.redirect("/dashboard/" + uname);    
       }
     });
     });
@@ -390,7 +390,7 @@ app
 
         LandOwner.findOrCreate(
           {
-            owneruname: profile.emails[0].value,
+            username: profile.emails[0].value,
             ownergoogleId: profile.id,
             nameofOwner: profile.displayName,
             ownerphotoUrl: profile.photos[0].value,
