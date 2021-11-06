@@ -1,24 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
-    <!-- <link rel="stylesheet" href="./CSS/style.css"> -->
-
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="/css/bookslot.css">
-    <title>Slot Booking</title>
-</head>
-
-<body >
+<%- include('partials/header') %>
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary navhead">
         <div class="container-fluid">
@@ -37,7 +17,7 @@
               <span style="width: 10px;"> </span>
               
               <li class="nav-item">
-                <a class="btn btn-light" href="/" role="button">Logout</a>
+                <a class="btn btn-light" href="/logout" role="button">Logout</a>
               </li>
               <span style="width: 10px;"> </span>
 
@@ -48,32 +28,30 @@
    <!-- navbar ends -->
   
     <div class="form-container mt-5">
-        <form class="w-50 mx-auto" id="entryForm">
+
+        <form class="w-50 mx-auto" id="entryForm" action="/slotbook/<%=usename %>"  method="POST">
           <h5 class="text-center">Book your slot</h5>
             <div class="form-group">
                 <label for="owner">Owner:</label>
-                <input type="text" class="form-control rounded-0 shadow-sm" id="owner" placeholder="Owner">
+                <input type="text" class="form-control rounded-0 shadow-sm" id="owner" name="owner" value="<%= ownername %>" placeholder="Owner">
             </div>
             <div class="form-group">
-                <label for="car">Car:</label>
-                <input type="text" class="form-control rounded-0 shadow-sm" id="car" placeholder="Car">
+                <label for="car">Vehicle Type :</label>
+                <input type="text" class="form-control rounded-0 shadow-sm" id="car" name="type" value="<%= vechile[0].vehicleType%>" placeholder="Car">
             </div>
             <div class="form-group">
                 <label for="licensePlate">Vehicle Reg. No.:</label>
-                <input type="text" class="form-control rounded-0 shadow-sm" id="regno" placeholder="NN-NN-LL,NN-LL-NN,....etc">
+                <input type="text" class="form-control rounded-0 shadow-sm" id="regno" name="regno" value="<%= vechile[0].vehicleNumber%>" placeholder="NN-NN-LL,NN-LL-NN,....etc">
             </div>
+
+            <div class="form-group">
+              <label for="licensePlate">Parking Location :</label>
+              <input type="text" class="form-control rounded-0 shadow-sm" id="location" name="location" value="<%= parkLoc%>" placeholder="NN-NN-LL,NN-LL-NN,....etc">
+          </div>
             <div class="row">
-                <div class="col-6">
-                    <label for="entryDate">Entry Date:</label>
-                    <input type="date" class="form-control rounded-0 shadow-sm" id="entryDate">
-                </div>
                 <div class="col-6">
                     <label for="entryTime">Entry Time:</label>
                     <input type="time" class="form-control rounded-0 shadow-sm" id="entryTime">
-                </div>
-                <div class="col-6">
-                    <label for="exitDate">Exit Date:</label>
-                    <input type="date" class="form-control rounded-0 shadow-sm" id="exitDate">
                 </div>
                 <div class="col-6">
                     <label for="exitTime">Exit Time:</label>

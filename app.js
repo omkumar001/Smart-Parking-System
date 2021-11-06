@@ -80,33 +80,33 @@ var pic = "",
 
 
 
-// passport.use(
-//   new GoogleStrategy(
-//     {
-//       clientID: process.env.CLIENT_ID,
-//       clientSecret: process.env.CLIENT_SECRET,
-//       callbackURL:process.env.  GOOGLE_URL,
-//       userProfileURL: process.env.GOOGLE_PROFILE,
-//     },
-//     function (accessToken, refreshToken, profile, cb) {
-//       //console.log(profile);
-//       User.findOrCreate(
-//         {
-//           username: profile.emails[0].value,
-//           googleId: profile.id,
-//           nameofUser: profile.displayName,
-//           photoUrl: profile.photos[0].value,
-//         },
-//         function (err, user) {
-//           pic = profile.photos[0].value;
-//           email = profile.emails[0].value;
-//           fname = profile.displayName;
-//           return cb(err, user);
-//         }
-//       );
-//     }
-//   )
-// );
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: process.env.CLIENT_ID,
+      clientSecret: process.env.CLIENT_SECRET,
+      callbackURL:process.env.  GOOGLE_URL,
+      userProfileURL: process.env.GOOGLE_PROFILE,
+    },
+    function (accessToken, refreshToken, profile, cb) {
+      //console.log(profile);
+      User.findOrCreate(
+        {
+          username: profile.emails[0].value,
+          googleId: profile.id,
+          nameofUser: profile.displayName,
+          photoUrl: profile.photos[0].value,
+        },
+        function (err, user) {
+          pic = profile.photos[0].value;
+          email = profile.emails[0].value;
+          fname = profile.displayName;
+          return cb(err, user);
+        }
+      );
+    }
+  )
+);
   
 
 app.get("/", function (req, res) {
@@ -120,15 +120,15 @@ app.get(
   })
 );
 
-// app.get(
-//   "/auth/google/dashboard",
-//   passport.authenticate("google", { failureRedirect: "/login" }),
-//   function (req, res) {
-//     // Successful authentication, redirect to secrets.
-//     const uname = email.substring(0, email.indexOf("@"));
-//     res.redirect("/dashboard/" + uname);
-//   }
-// );
+app.get(
+  "/auth/google/dashboard",
+  passport.authenticate("google", { failureRedirect: "/login" }),
+  function (req, res) {
+    // Successful authentication, redirect to secrets.
+    const uname = email.substring(0, email.indexOf("@"));
+    res.redirect("/dashboard/" + uname);
+  }
+);
 
 /////////////// Log Out /////////////////
 app.get("/logout", function (req, res) {
@@ -214,11 +214,15 @@ app.route("/dashboard/:uname").get(function (req, res) {
           if (errr) {
             console.log(errr);
           } else {
+
+            const username = email.substring(0, email.indexOf("@"));
+
             res.render("dashboard", {
               picUrl: pic,
               fname: fname,
               email: email,
               vehicleList: vehicles,
+              usename : username,
             });
           }
         });
@@ -226,6 +230,7 @@ app.route("/dashboard/:uname").get(function (req, res) {
     }
   });
 });
+
 
 app
   .route("/addVehicle")
@@ -248,6 +253,96 @@ app
       }
     });
   });
+
+
+ //For spotpark part
+ var parkLocation="";
+
+app
+.route("/spotpark/:uname")
+.get(function (req, res) {
+
+ User.find({ success: { $ne: null } }, function (err, foundUsers) {
+ if (err) {
+ console.log(err);
+  } else {
+  if (foundUsers) {
+  
+    Land.find({ success: { $ne: null } }, function (err, foundSlot) {
+      if (err) {
+        console.log(err);
+      } else {
+        const uname = email.substring(0, email.indexOf("@"));
+         res.render("spotpark", { slot:foundSlot ,usename :uname ,}); 
+         }
+    });
+
+      } //if ends
+    } //else ends
+  });
+ })
+  .post(function (req, res) {
+    parkLocation=req.body.plocation;
+    const uname = email.substring(0, email.indexOf("@"));
+    res.redirect("/slotbook/"+uname );
+    });
+
+
+
+    //Creating Booking Schema
+    const bookingSchema = new mongoose.Schema({
+      vehicleType: String,
+      vehicleNumber: String,
+      ownername : String,
+      parkLocation :String
+    });
+    
+    const Booking= new mongoose.model("Booking", bookingSchema);
+    bookingSchema.plugin(findOrCreate);
+
+    app
+.route("/slotbook/:uname")
+.get(function (req, res) {
+
+ User.find({ success: { $ne: null } }, function (err, foundUsers) {
+ if (err) {
+ console.log(err);
+  } else {
+   var name= foundUsers[0].nameofUser;
+   const uname = email.substring(0, email.indexOf("@"));
+  if (foundUsers) {
+
+    Vehicle.find({ success: { $ne: null } }, function (err, foundVehicles) {
+      if (err) {
+        console.log(err);
+      } else {
+       
+         res.render("slotbook", { vechile:foundVehicles ,ownername :name , usename:uname, parkLoc : parkLocation,}); 
+         }
+    });
+
+      } //if ends
+    } //else ends
+  });
+ })
+  .post(function (req, res) {
+
+    const booking = new Booking({
+      vehicleType: req.body.type,
+      vehicleNumber: req.body.regno,
+      ownername: req.body.owner,
+      parkLocation:req.body.location,
+    });
+
+    Booking.create(booking, function (err, result) {
+      if (err) {
+        console.log(err);
+      } else {
+        const uname = email.substring(0, email.indexOf("@"));
+        res.redirect("/dashboard/" + uname);
+      }
+    });
+    });
 
 
     
@@ -302,34 +397,34 @@ app
     ownfname = "";
   /////////////// Google Sign In /////////////////
 
-  passport.use(
-    new GoogleStrategy(
-      {
-        clientID: process.env.CLIENT_ID,
-        clientSecret: process.env.CLIENT_SECRET,
-        callbackURL:process.env.GOOGLE_URL ,
-        userProfileURL: process.env.GOOGLE_PROFILE,
-      },
-      function (accessToken, refreshToken, profile, cb) {
-        //console.log(profile);
+  // passport.use(
+  //   new GoogleStrategy(
+  //     {
+  //       clientID: process.env.CLIENT_ID,
+  //       clientSecret: process.env.CLIENT_SECRET,
+  //       callbackURL:process.env.GOOGLE_URL ,
+  //       userProfileURL: process.env.GOOGLE_PROFILE,
+  //     },
+  //     function (accessToken, refreshToken, profile, cb) {
+  //       //console.log(profile);
 
-        LandOwner.findOrCreate(
-          {
-            owneruname: profile.emails[0].value,
-            ownergoogleId: profile.id,
-            nameofOwner: profile.displayName,
-            ownerphotoUrl: profile.photos[0].value,
-          },
-          function (err, owner) {
-            ownpic = profile.photos[0].value;
-            ownemail = profile.emails[0].value;
-            ownfname = profile.displayName;
-            return cb(err, owner);
-          }
-        );
-      }
-    )
-  );
+  //       LandOwner.findOrCreate(
+  //         {
+  //           owneruname: profile.emails[0].value,
+  //           ownergoogleId: profile.id,
+  //           nameofOwner: profile.displayName,
+  //           ownerphotoUrl: profile.photos[0].value,
+  //         },
+  //         function (err, owner) {
+  //           ownpic = profile.photos[0].value;
+  //           ownemail = profile.emails[0].value;
+  //           ownfname = profile.displayName;
+  //           return cb(err, owner);
+  //         }
+  //       );
+  //     }
+  //   )
+  // );
 
  
   
@@ -340,15 +435,15 @@ app
     })
   );
   
-  app.get(
-    "/auth/google/dashboard",
-    passport.authenticate("google", { failureRedirect: "/login_landowner" }),
-    function (req, res) {
-      // Successful authentication, redirect to secrets.
-      const oname = ownemail.substring(0, ownemail.indexOf("@"));
-      res.redirect("/landowner_dash/" + oname);
-    }
-  );
+  // app.get(
+  //   "/auth/google/dashboard",
+  //   passport.authenticate("google", { failureRedirect: "/login_landowner" }),
+  //   function (req, res) {
+  //     // Successful authentication, redirect to secrets.
+  //     const oname = ownemail.substring(0, ownemail.indexOf("@"));
+  //     res.redirect("/landowner_dash/" + oname);
+  //   }
+  // );
   
   /////////////// Log Out /////////////////
   app.get("/logout", function (req, res) {
@@ -479,26 +574,6 @@ app
 
 
 
-  app
-  .route("/spotpark")
-  .get(function (req, res) {
-
-   Land.find({ success: { $ne: null } }, function (err, foundSlot) {
-      if (err) {
-        console.log(err);
-      } else {
-         res.render("spotpark", { slot:foundSlot });  }
-    })
- })
-  .post(function (req, res) {
-    // const vehicle = new Vehicle({
-    //   vehicleType: req.body.vType,
-    //   vehicleNumber: req.body.vNumber,
-    //   owner: email,
-    });
-
-
-
 
 
   // app.get("/login_landowner", function (req, res) {
@@ -520,20 +595,13 @@ app
   //   res.render("spotpark");
   // });
 
-  app.get("/slotbook", function (req, res) {
-    res.render("slotbook");
-  });
+
   
   // app.post("/spotpark", function (req, res) {
   // });
   
   
-  app.get("/slotpark", function (req, res) {
-    res.sendFile(__dirname + "/Index.html");
-  });
 
-
-  
 
 app.listen(3000, function () {
   console.log("Server started on port 3000.");
