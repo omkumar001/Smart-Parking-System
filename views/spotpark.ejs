@@ -73,8 +73,10 @@
          
           <form action="/spotpark/<%=usename %>" method="POST">
           <input type="hidden" name="plocation" value="<%= slot[i].location %>" >
+          
         <button type="submit" class="btn btn-outline-primary">   Book Now  </button> 
-         <small class="text-muted slot">  <%= slot[i].nSlot %> slots left  </small> 
+         <small class="text-muted slot">  <%= slot[i].nSlot %> slots left  </small>
+         <small class="text-muted slot">EV Port: <%= slot[i].eVCharge %> </small> 
         </form>
         </div>
       </div>

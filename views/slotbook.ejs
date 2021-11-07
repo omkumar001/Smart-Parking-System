@@ -36,13 +36,17 @@
                 <label for="owner">Owner:</label>
                 <input type="text" class="form-control rounded-0 shadow-sm" id="owner" name="owner" value="<%= ownername %>" placeholder="Owner">
             </div>
+
             <div class="form-group">
-                <label for="car">Vehicle Type :</label>
-                <input type="text" class="form-control rounded-0 shadow-sm" id="car" name="type" value="<%= vechile[0].vehicleType%>" placeholder="Car">
-            </div>
-            <div class="form-group">
-                <label for="licensePlate">Vehicle Reg. No.:</label>
-                <input type="text" class="form-control rounded-0 shadow-sm" id="regno" name="regno" value="<%= vechile[0].vehicleNumber%>" placeholder="NN-NN-LL,NN-LL-NN,....etc">
+              <label for="vehicle">Select vehicle :</label>
+
+              <select name="typeNo" id="vDetail" class="form-control rounded-0 shadow-sm" onclick="showOrHideDiv()" >
+                <% for(var i=0; i<vechile.length; i++) {%>
+                  <option value="<%= vechile[i].vehicleType %> ( <%= vechile[i].vehicleNumber %> )">
+                    <%= vechile[i].vehicleType %> ( <%= vechile[i].vehicleNumber %> )
+                  </option> 
+                <% } %>
+              </select>
             </div>
 
             <div class="form-group">
@@ -62,10 +66,38 @@
             <input type="radio" id="threeHr" name="pType" value="<%= parkLoc.ncharge3 %>" autocomplete="off">
             <label for="threeHr">3 Hours (₹<%= parkLoc.ncharge3 %>.00)</label>
           </div>
-          
+
+          <% if(parkLoc.eVCharge =="Yes") {%> 
+          <div class="form-group toggle-btn" id="electric">
+            <label for="chargePort">Want to Charge the vehicle: </label>
+            <br>
+            <input type="radio" name="chargePort" id="yes" value="Yes" autocomplete="off">
+            <label for="yes">Yes</label>
+            <br>
+            <input type="radio" name="chargePort" id="no" value="No" autocomplete="off">
+            <label for="no">No</label>
+          </div>
+          <% } %> 
             <button type="submit" class="btn mx-auto d-block mt-5 rounded-0 shadow" id="btnOne">Book Slot</button>
         </form>
     </div>
+
+    <script>
+            
+      function showOrHideDiv() {
+        var select = document.getElementById("vDetail");
+  			var option = select.options[select.selectedIndex];
+        var optiontext = option.text;
+        optiontext = optiontext.substring(0,optiontext.indexOf("("));
+        var v = document.getElementById("electric");
+          if (optiontext === "Electric ") {
+            v.style.display = "block";
+          }else {              
+            v.style.display = "none";
+          }
+        }
+      
+    </script>
 </body>
 
 </html>

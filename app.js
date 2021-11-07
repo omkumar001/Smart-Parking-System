@@ -293,13 +293,15 @@ app
       vehicleNumber: String,
       ownername : String,
       parkLocation: String,
-      parkCharges: Number
+      parkCharges: Number,
+      chargePort: String
     });
     
     const Booking= new mongoose.model("Booking", bookingSchema);
     bookingSchema.plugin(findOrCreate);
 
-
+//For E-Vehicle charging port
+var cPort = "No";
 app
 .route("/slotbook/:uname")
 .get(function (req, res) {
@@ -311,7 +313,7 @@ app
    const uname = email.substring(0, email.indexOf("@"));
   if (foundUsers) {
 
-    Vehicle.find({ success: { $ne: null } }, function (err, foundVehicles) {
+    Vehicle.find({ owner: email}, function (err, foundVehicles) {
       if (err) {
         console.log(err);
       } else {
@@ -332,20 +334,30 @@ app
  })
   .post(function (req, res) {
 
+    const vTypeNo = req.body.typeNo;
     const booking = new Booking({
-      vehicleType: req.body.type,
-      vehicleNumber: req.body.regno,
+      vehicleType: vTypeNo.substring(0,vTypeNo.indexOf("(")),
+      vehicleNumber: vTypeNo.substring(vTypeNo.indexOf("( ")+1, vTypeNo.indexOf(" )")),
       ownername: req.body.owner,
       parkLocation: req.body.location,
-      parkCharges: req.body.pType
+      parkCharges: req.body.pType,
+      chargePort: req.body.chargePort
     });
 
     Booking.create(booking, function (err, result) {
       if (err) {
         console.log(err);
       } else {
-        
-        Land.findOneAndUpdate({ location: parkLocation }, { $inc: {nSlot: -1}} , function (errr, result) {
+        //console.log(booking.chargePort);
+        if (booking.chargePort !== undefined) {
+          if (booking.chargePort == "Yes") {
+            cPort = "Occupied";
+          } else {
+            cPort = "Yes";
+          }          
+        }
+
+        Land.findOneAndUpdate({ location: parkLocation }, { $inc: { nSlot: -1 }, eVCharge: cPort} , function (errr, result) {
           if (errr) {
             console.log(errr);
           } else {
@@ -384,7 +396,8 @@ app
     ncharge2:  Number,
     ncharge3:  Number,
     location: String,
-    lowner: String
+    lowner: String,
+    eVCharge: String
   });
   
   const Land = new mongoose.model("Land", LandSchema);
