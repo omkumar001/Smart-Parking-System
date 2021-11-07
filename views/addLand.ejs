@@ -1,0 +1,48 @@
+<%- include('partials/header') %> 
+<div class="container mt-5">
+    <h1>Add Land</h1>
+  
+    <div class="row">
+      <div class="col-sm-8">
+        <div class="card">
+          <div class="card-body">
+  
+            <!-- Makes POST request to /register route -->
+            <form action="/addLand" method="POST">
+             
+              <div class="form-group">
+                <label for="Charge1">Hourly Charge (Rs.)</label>
+               <input type="number" class="form-control cost" name="Charge1" autocomplete="off">
+              </div>
+
+              <div class="form-group">
+                <label for="Charge2">Charge upto 2hrs (Rs.)</label>
+                <input type="number" class="form-control cost" name="Charge2" autocomplete="off"> 
+              </div>
+
+              <div class="form-group">
+                <label for="Charge3">Upto 3hrs (Rs.)</label>
+                 <input type="number" class="form-control cost" name="Charge3" autocomplete="off">
+              </div>
+
+              <div class="form-group">
+                <label for="sNumber">No. of Slots</label>
+                <input type="number" class="form-control" name="sNumber" autocomplete="off">
+              </div>
+
+              <div class="form-group">
+                <label for="lLocation">Land Location</label>
+                <input type="text" class="form-control" name="Location" autocomplete="off">
+              </div>
+              <button type="submit" class="btn btn-dark">Add</button>
+            </form>
+  
+          </div>
+        </div>
+      </div>
+  
+    </div>
+  </div>
+  
+
+<%- include('partials/footer') %>

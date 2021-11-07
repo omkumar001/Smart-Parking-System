@@ -1,0 +1,67 @@
+<%- include('partials/header') %> 
+
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary navhead">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="/" id="topone">
+            Park Up
+          </a>
+
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+
+            
+              <span style="width: 10px;"> </span>
+              
+              <li class="nav-item">
+                <a class="btn btn-light" href="/logout" role="button">Logout</a>
+              </li>
+              <span style="width: 10px;"> </span>
+
+            </ul>
+          </div>
+        </div>
+    </nav>
+   <!-- navbar ends -->
+  
+    <div class="form-container mt-5">
+
+        <form class="w-50 mx-auto" id="entryForm" action="/slotbook/<%=usename %>"  method="POST">
+          <h5 class="text-center">Book your slot</h5>
+            <div class="form-group">
+                <label for="owner">Owner:</label>
+                <input type="text" class="form-control rounded-0 shadow-sm" id="owner" name="owner" value="<%= ownername %>" placeholder="Owner">
+            </div>
+            <div class="form-group">
+                <label for="car">Vehicle Type :</label>
+                <input type="text" class="form-control rounded-0 shadow-sm" id="car" name="type" value="<%= vechile[0].vehicleType%>" placeholder="Car">
+            </div>
+            <div class="form-group">
+                <label for="licensePlate">Vehicle Reg. No.:</label>
+                <input type="text" class="form-control rounded-0 shadow-sm" id="regno" name="regno" value="<%= vechile[0].vehicleNumber%>" placeholder="NN-NN-LL,NN-LL-NN,....etc">
+            </div>
+
+            <div class="form-group">
+              <label for="licensePlate">Parking Location :</label>
+              <input type="text" class="form-control rounded-0 shadow-sm" id="location" name="location" value="<%= parkLoc%>" placeholder="NN-NN-LL,NN-LL-NN,....etc">
+          </div>
+            <div class="row">
+                <div class="col-6">
+                    <label for="entryTime">Entry Time:</label>
+                    <input type="time" class="form-control rounded-0 shadow-sm" id="entryTime">
+                </div>
+                <div class="col-6">
+                    <label for="exitTime">Exit Time:</label>
+                    <input type="time" class="form-control rounded-0 shadow-sm" id="exitTime">
+                </div>
+            </div>
+            <button type="submit" class="btn mx-auto d-block mt-5 rounded-0 shadow" id="btnOne">Book Slot</button>
+        </form>
+    </div>
+</body>
+
+</html>

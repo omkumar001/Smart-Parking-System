@@ -1,0 +1,70 @@
+<%- include('partials/header') %>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary navhead">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/" id="topone">
+      Park Up
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+
+        <li class="nav-item">
+          <a class="btn btn-dark" href="/dashboard" role="button">Admin Dashboard</a>
+        </li>
+
+        <span style="width: 10px;"> </span>
+
+        <li class="nav-item">
+          <a class="btn btn-light" href="/logout" role="button">Logout</a>
+        </li>
+        <span style="width: 10px;"> </span>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<% if(land.length==0){ %>
+  <h2>No Requests till now</h2>
+<%  }  else { %>
+
+ <div class="row">
+  <% land.forEach(function(land){ %>
+    <div class= "card" >
+    <div class="card mt-3 ml-6 details parkupcards show" style="width: 22rem;">
+
+      <div class="card-body" style="display:inline-block">
+
+        <p class="card-text ">
+
+          <h2 class="parkup">"Owner Name"</h2>
+          <br><br>
+
+          <p class= "details"></p>
+
+          <!-- LandOwner :  <span class="info"> landowner  </span> <br> -->
+          Email : <span class="info"> email </span>   <br>
+          Hourly Charge : <span class="info">  <%= land.charge1 %> </span>   <br>
+          Two Hour Charge : <span class="info"><%= land.charge2 %> </span>   <br>
+          Three Hour Charge : <span class="info"> <%= land.charge3 %> </span> <br>
+          Slot Count : <span class="info"><a style="text-decoration: none; color:black"> <%= land.sNumber %> </a>   </span> <br>
+           <br><br>
+          Location : -  <%= land.location %><br><br>
+
+
+          <a  style="float: right;" <button type="button" class="btn btn-outline-primary">Accept Request</button></a><br><br>
+
+
+      </div>
+    </div>
+  </div>
+ <% }) %>;
+ </div>
+<% } %>
+
+<%- include('partials/footer') %>

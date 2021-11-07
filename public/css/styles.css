@@ -1,0 +1,105 @@
+body {
+  background-color: #e8ecef;
+}
+
+.centered {
+  padding-top: 200px;
+  text-align: center;
+}
+
+.footer {
+  background-color: #d1c4e9;
+  margin: 100px auto;
+  padding: 20px 0px 20px 0px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.navhead {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.navbar {
+  height: 10vh;
+}
+.brand {
+  transform: rotate(-90deg);
+  position: absolute;
+  top: 80vh;
+}
+
+/* CSS for the Map View */
+
+.map h1 {
+  letter-spacing: 1px;
+  font-size: 2em;
+  font-weight: bold;
+}
+
+/* Map View  CSS Ends */
+
+.cost {
+  width: 400px;
+  text-align: center;
+}
+
+.park-card {
+  color: black;
+}
+
+/* .card-header {
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.8);
+  margin-bottom: 6%;
+  margin-right: 1%;
+}
+
+.park-card{
+color: black;
+}
+
+/* CSS for land owner sign up */
+.dropbtn {
+  background-color: rgb(25, 120, 197);
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 200px;
+  min-height: 5px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown:hover .dropbtn {
+  background-color: rgb(18, 85, 139);
+}
+
+.dropdown-content a:hover {background-color: rgba(0,0,0,0.2)}

@@ -1,0 +1,90 @@
+<%- include('partials/header') %>
+
+      <!--Navbar-->
+      <nav class="navbar navbar-expand-lg navbar-dark bg-primary navhead">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="/" id="topone">
+            Park Up
+          </a>
+
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+
+              <li class="nav-item">
+                <a class="btn btn-light" href="/register" role="button">Register</a>
+              </li>
+              <span style="width: 10px;"> </span>
+              
+              <li class="nav-item">
+                <a class="btn btn-dark" href="/login" role="button">Login</a>
+              </li>
+
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      <!--Jumbotron-->
+      <div class="jumbotron align-items-center text-center">
+        <img src="https://www.matrixvideosurveillance.com/blog/wp-content/uploads/2020/01/matrix-smart-parking-management-solution.png" alt="home-image">
+        <h1 class="display-4">Say GoodBye to Your all Parking related worries!</h1>
+        <p class="lead">We know Parking your vehicles can sometimes becomes very tedious task, But it's no more from now! </p>
+        <hr class="my-4">
+
+        <div class="dropdown">
+          <button class="btn btn-primary dropbtn">Rent Out Parking Lot</button>
+          <div class="dropdown-content">
+            <a class="btn " href="/auth/google/landowner" role="button">
+              <img width="20px" style="margin-bottom:3px; margin-right:5px" alt="Google sign-in" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
+              Sign In with Google
+            </a>
+          </div>
+        </div>
+        
+        <p class="lead mt-2">Are you looking to rent your area for Parking Facilities? Apply Now.</p>
+      </div>
+      <!--After Jumbotron-->
+      <div class="container">
+        <h3 class="text-center" style="font-size: 50px;">Here's How It Works</h3>
+        <div class="row mt-5">
+          <div class="col-12 col-sm-4">
+          <p>STEP 1</p>
+          <h4>Just Sign in/Sign Up</h4>
+          <p class="lead">Sign in/Sign up as a user, providing basic informations.</p>
+          </div>
+          <div class="col-12 col-sm-4">
+            <p>STEP 2</p>
+            <h4>Enter relevant informations. </h4>
+            <p class="lead ">Once you are logged in, enter your vehicle details, checking and checkout time, Location (You can use our GPS service too!)
+            </p>
+          </div>
+          <div class="col-12 col-sm-4">
+            <p>STEP 3</p>
+            <h4>Wait for confirmations</h4>
+            <p class="lead">Once you are done providing your informations, just wait for confirmation.</p>
+          </div>
+        </div>
+
+        <br>
+        <hr>
+        <div class="row mt-5 text-center">
+          <div class="col-12 col-sm-12">
+            <h3 style="font-size: 50px;">Who We Are</h3>
+            <p class="lead mt-3">We wanted to make it easier for people to save time when searching for parking spaces at different spots in the country.
+           Moreover sometimes we lose a lot of time just because of traffic jams,
+           ParkUp provides alternate solutions to this all  problems to save your time</p>
+          </div>
+        </div>
+        <br>
+        <hr>
+        <div class="row mb-2 mt-3">
+          <h5 class="lead text-center">We Work Hard to make your each experience a best experience </h5>
+        </div>
+      </div>
+
+<%- include('partials/footer') %>
+
