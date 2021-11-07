@@ -47,18 +47,22 @@
 
             <div class="form-group">
               <label for="licensePlate">Parking Location :</label>
-              <input type="text" class="form-control rounded-0 shadow-sm" id="location" name="location" value="<%= parkLoc%>" placeholder="NN-NN-LL,NN-LL-NN,....etc">
+              <input type="text" class="form-control rounded-0 shadow-sm" id="location" name="location" value="<%= parkLoc.location%>" placeholder="NN-NN-LL,NN-LL-NN,....etc">
           </div>
-            <div class="row">
-                <div class="col-6">
-                    <label for="entryTime">Entry Time:</label>
-                    <input type="time" class="form-control rounded-0 shadow-sm" id="entryTime">
-                </div>
-                <div class="col-6">
-                    <label for="exitTime">Exit Time:</label>
-                    <input type="time" class="form-control rounded-0 shadow-sm" id="exitTime">
-                </div>
-            </div>
+
+          <div class="form-group">
+            <label for="pType">Need parking slot for: </label>
+            <br>
+            <input type="radio" id="oneHr" name="pType" value="<%= parkLoc.ncharge1 %>" autocomplete="off">
+            <label for="oneHr">1 Hour (₹<%= parkLoc.ncharge1 %>.00)</label>
+            <br>
+            <input type="radio" id="twoHr" name="pType" value="<%= parkLoc.ncharge2 %>" autocomplete="off">
+            <label for="twoHr">2 Hours (₹<%= parkLoc.ncharge2 %>.00)</label>
+            <br>
+            <input type="radio" id="threeHr" name="pType" value="<%= parkLoc.ncharge3 %>" autocomplete="off">
+            <label for="threeHr">3 Hours (₹<%= parkLoc.ncharge3 %>.00)</label>
+          </div>
+          
             <button type="submit" class="btn mx-auto d-block mt-5 rounded-0 shadow" id="btnOne">Book Slot</button>
         </form>
     </div>

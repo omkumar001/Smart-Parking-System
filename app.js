@@ -8,6 +8,7 @@ const passport = require("passport");
 const passportLocalMongoose = require("passport-local-mongoose");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const findOrCreate = require("mongoose-findorcreate");
+const alert = require("alert");
 
 const app = express();
 
@@ -291,14 +292,15 @@ app
       vehicleType: String,
       vehicleNumber: String,
       ownername : String,
-      parkLocation :String
+      parkLocation: String,
+      parkCharges: Number
     });
     
     const Booking= new mongoose.model("Booking", bookingSchema);
     bookingSchema.plugin(findOrCreate);
 
 
-    app
+app
 .route("/slotbook/:uname")
 .get(function (req, res) {
  User.find({ success: { $ne: null } }, function (err, foundUsers) {
@@ -313,9 +315,15 @@ app
       if (err) {
         console.log(err);
       } else {
-       
-         res.render("slotbook", { vechile:foundVehicles ,ownername :name , usename:uname, parkLoc : parkLocation,}); 
-         }
+
+        Land.findOne({ location: parkLocation }, function (errr, foundLoc) {
+          if (errr) {
+            console.log(errr);
+          } else {
+            res.render("slotbook", { vechile:foundVehicles ,ownername :name , usename:uname, parkLoc : foundLoc});      
+          }
+        }); 
+      }
     });
 
       } //if ends
@@ -328,15 +336,24 @@ app
       vehicleType: req.body.type,
       vehicleNumber: req.body.regno,
       ownername: req.body.owner,
-      parkLocation:req.body.location,
+      parkLocation: req.body.location,
+      parkCharges: req.body.pType
     });
 
     Booking.create(booking, function (err, result) {
       if (err) {
         console.log(err);
       } else {
-         const uname = email.substring(0, email.indexOf("@"));
-          res.redirect("/dashboard/" + uname);    
+        
+        Land.findOneAndUpdate({ location: parkLocation }, { $inc: {nSlot: -1}} , function (errr, result) {
+          if (errr) {
+            console.log(errr);
+          } else {
+            alert("Parking Slot Booked!");
+            const uname = email.substring(0, email.indexOf("@"));
+            res.redirect("/dashboard/" + uname);
+          }
+        });    
       }
     });
     });
